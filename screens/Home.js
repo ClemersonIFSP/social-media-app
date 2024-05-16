@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-
+import Post from "../components/Post";
 const Tab = createMaterialTopTabNavigator();
 
 const Destaque = () => {
@@ -18,6 +18,10 @@ const Destaque = () => {
 };
 
 const Recentes = () => {
+  const data = {
+    title: "Post Recente",
+    body: "Corpo do post",
+  };
   return (
     <View
       style={{
@@ -26,7 +30,7 @@ const Recentes = () => {
         alignItems: "center",
       }}
     >
-      <Text>Recentes!</Text>
+      <Post post={data} />
     </View>
   );
 };
