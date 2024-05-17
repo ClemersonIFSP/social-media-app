@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
-export const Register = () => {
+const Register = () => {
   const navigation = useNavigation();
 
   const [txtName, setTxtName] = useState("");
@@ -119,3 +119,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
+
+export default Register;

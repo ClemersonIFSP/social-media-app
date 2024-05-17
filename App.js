@@ -7,9 +7,10 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { Home } from "./screens/Home";
-import { Login } from "./screens/Login";
-import { Register } from "./screens/Register";
+import Home from "./screens/Home";
+import Login from "./screens/Login";
+import Register from "./screens/Register";
+import PerfilStack from "./screens/Perfil/PerfilStack";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -33,9 +34,13 @@ const SafeArea = ({ children }) => {
 
 const MyDrawer = () => {
   return (
-    <Drawer.Navigator initialRouteName="Home">
+    <Drawer.Navigator initialRouteName="Inicio">
       <Drawer.Screen name="Inicio" component={Home} />
-      <Drawer.Screen name="Cassio" component={Home} />
+      <Drawer.Screen
+        name="Perfil"
+        component={PerfilStack}
+        options={{ headerShown: false }}
+      />
     </Drawer.Navigator>
   );
 };
@@ -45,7 +50,7 @@ export default function App() {
     <SafeAreaProvider>
       <NavigationContainer>
         <SafeArea>
-          <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
               name="Login"
               component={Login}

@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
-export const Login = () => {
+const Login = () => {
   const navigation = useNavigation();
   const [txtEmail, setTxtEmail] = useState("");
   const [txtPassword, setTxtPassword] = useState("");
@@ -108,3 +108,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
+
+export default Login;
