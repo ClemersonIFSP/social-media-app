@@ -1,36 +1,17 @@
 import "react-native-gesture-handler";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
-import Home from "./screens/Home";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Home from "./screens/Home/Home";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
 import PerfilStack from "./screens/Perfil/PerfilStack";
+import NewPost from "./screens/Home/NewPost";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-
-const SafeArea = ({ children }) => {
-  const insets = useSafeAreaInsets();
-  return (
-    <View
-      style={{
-        flex: 1,
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-      }}
-    >
-      {children}
-    </View>
-  );
-};
 
 const MyDrawer = () => {
   return (
@@ -49,25 +30,24 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <SafeArea>
-          <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Home"
-              component={MyDrawer}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Register"
-              component={Register}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        </SafeArea>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Home"
+            component={MyDrawer}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={Register}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="NewPost" component={NewPost} options={{ headerShown: false }} />
+        </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
   );
