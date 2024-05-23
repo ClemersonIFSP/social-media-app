@@ -1,6 +1,7 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Destaque from "./Destaque";
 import Recentes from "./Recentes";
+import useUserLoggedStore from "../../stores/useUserLogged";
 const Tab = createMaterialTopTabNavigator();
 
 const Home = () => {

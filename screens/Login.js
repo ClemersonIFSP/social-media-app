@@ -8,11 +8,14 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useUserLoggedStore from "../stores/useUserLogged.js";
 
 const Login = () => {
   const navigation = useNavigation();
   const [txtEmail, setTxtEmail] = useState("");
   const [txtPassword, setTxtPassword] = useState("");
+  const login = useUserLoggedStore((state) => state.login);
 
   const handleLogin = async () => {
     try {
@@ -26,11 +29,23 @@ const Login = () => {
           password: txtPassword,
         }),
       });
-      const data = await response.json();
-      if (data?.message) {
-        navigation.navigate("Home");
+      if (response?.ok) {
+        const data = await response.json();
+        try {
+          await AsyncStorage.setItem(
+            "userLogged",
+            JSON.stringify({ ...data.user, token: data.token })
+          );
+          login(data.user, data.token);
+          navigation.navigate("Home");
+        } catch (error) {
+          console.log(error);
+          alert("Erro ao gravar dados de login no dispositivo!");
+        }
       } else {
-        alert(data?.error);
+        const data = await response.json();
+        console.log(data);
+        alert(data?.error ? data.error : "Erro ao logar!");
       }
     } catch (error) {
       console.log(error);

@@ -10,22 +10,19 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Post from "../../components/Post";
 import SafeArea from "../../components/SafeArea";
+import useUserLoggedStore from "../../stores/useUserLogged";
 
-const data = {
-  perfil_image: "https://cdn-icons-png.flaticon.com/512/147/147142.png",
-  name: "Clemerson",
-  body: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-  like: 0,
-};
+
 
 const Perfil = () => {
+  const user = useUserLoggedStore()
   const navigation = useNavigation();
   return (
     <SafeArea>
       <ScrollView style={styles.container}>
         <ImageBackground
           source={{
-            uri: "https://png.pngtree.com/png-clipart/20190516/original/pngtree-simple-banner-design-for-commercial-elements-designbannerbannercartoon-design-png-image_4048742.jpg",
+            uri: user.banner_image,
           }}
           style={{ height: 150 }}
           resizeMode="conver"
@@ -36,20 +33,18 @@ const Perfil = () => {
         </ImageBackground>
         <Image
           source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/147/147142.png",
+            uri: user.perfil_image,
           }}
           style={styles.perfilImage}
         />
         <View style={styles.perfilBtn}>
           <Button
             title="Editar Perfil"
-            onPress={() => navigation.navigate("Editar Perfil")}
+            onPress={() => navigation.navigate("EditPerfil")}
           />
         </View>
-        <Text style={styles.perfilName}>Clemerson</Text>
+        <Text style={styles.perfilName}>{user.name}</Text>
         <Text style={styles.title}>Meus Posts</Text>
-        <Post post={data} />
-        <Post post={data} />
       </ScrollView>
     </SafeArea>
   );

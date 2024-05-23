@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     borderBottomColor: "#f9f9f9",
   },
   perfil: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,

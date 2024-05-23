@@ -10,7 +10,7 @@ const PerfilStack = () => {
           component={Perfil}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Editar Perfil" component={PerfilEdit} />
+        <Stack.Screen name="EditPerfil" component={PerfilEdit} options={{ title: "Editar Perfil"}}/>
       </Stack.Navigator>
   );
 
