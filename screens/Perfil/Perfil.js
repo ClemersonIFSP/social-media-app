@@ -7,17 +7,35 @@ import {
   ScrollView,
   Button,
   StyleSheet,
+  FlatList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
+
 import Post from "../../components/Post";
 import SafeArea from "../../components/SafeArea";
 import useUserLoggedStore from "../../stores/useUserLogged";
 
-
-
 const Perfil = () => {
-  const user = useUserLoggedStore()
+  const user = useUserLoggedStore();
   const navigation = useNavigation();
+  const [posts, setPosts] = useState([]);
+  const loadPosts = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/post/${user.id}`);
+      const data = await response.json();
+      setPosts(data.posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      loadPosts();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <SafeArea>
       <ScrollView style={styles.container}>
@@ -28,9 +46,13 @@ const Perfil = () => {
           style={{ height: 150 }}
           resizeMode="conver"
         >
-          <View style={styles.voltar}>
-            <Button title="V" onPress={() => navigation.goBack()} />
-          </View>
+          <AntDesign
+            style={styles.voltar}
+            name="leftsquare"
+            size={40}
+            color="#117afb"
+            onPress={() => navigation.goBack()}
+          />
         </ImageBackground>
         <Image
           source={{
@@ -46,6 +68,11 @@ const Perfil = () => {
         </View>
         <Text style={styles.perfilName}>{user.name}</Text>
         <Text style={styles.title}>Meus Posts</Text>
+        <FlatList
+          data={posts}
+          renderItem={({ item }) => <Post post={item} />}
+          keyExtractor={(item) => item.id}
+        />
       </ScrollView>
     </SafeArea>
   );
@@ -57,8 +84,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   voltar: {
-    margin: 10,
-    width: 32,
+    margin: 5,
+    position: "absolute",
   },
   perfilImage: {
     marginStart: 10,
