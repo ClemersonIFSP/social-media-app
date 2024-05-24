@@ -1,17 +1,35 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import Post from "../../components/Post";
+import { useState, useEffect } from "react";
+import { Text, StyleSheet, Pressable, FlatList, ScrollView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-const data = {
-    perfil_image: "https://cdn-icons-png.flaticon.com/512/147/147142.png",
-    name: "Clemerson",
-    body: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    like: 0,
-};
+import Post from "../../components/Post";
+
 const Recentes = () => {
     const navigation = useNavigation();
+    const [posts, setPosts] = useState([])
+    const loadPosts = async () => {
+        try {
+            const response = await fetch("http://localhost:3000/post/listOrderByDate")
+            const data = await response.json()
+            setPosts(data.posts)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('state', () => {
+            loadPosts();
+        });
+        return unsubscribe;
+    }, [navigation])
     return (
         <View style={{ flex: 1 }}>
-            <Post post={data} />
+            <ScrollView>
+                <FlatList
+                    data={posts}
+                    renderItem={({ item }) => <Post post={item} />}
+                    keyExtractor={(item) => item.id}
+                />
+            </ScrollView>
             <Pressable style={styles.newPost} onPress={() => navigation.navigate("NewPost")}>
                 <Text style={{ color: "white", textAlign: "center" }}>Novo Post</Text>
             </Pressable>

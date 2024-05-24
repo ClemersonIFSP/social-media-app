@@ -8,7 +8,7 @@ const useUserLoggedStore = create((set) => ({
   banner_image: "",
   token: "",
   isLogged: false,
-  
+  update: (user) => set(() => ({ ...user })),
   login: (user, token) => set(() => ({ ...user, token, isLogged: true })),
   logout: () =>
     set(() => ({
