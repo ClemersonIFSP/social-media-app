@@ -1,9 +1,14 @@
+import { useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+
+import ConfirmationModal from "./ConfirmationModal.js";
 import useUserLoggedStore from "../stores/useUserLogged";
 
 const Post = ({ post }) => {
   const user = useUserLoggedStore();
+  const navigation = useNavigation();
   const date = new Date(post.date);
   const formattedDate = new Date(date).toLocaleString("pt-BR", {
     timeZone: "America/Sao_Paulo",
@@ -14,6 +19,25 @@ const Post = ({ post }) => {
     minute: "2-digit",
     hour12: false,
   });
+
+  const remove = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/post/${post.id}`, {
+        method: "DELETE",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const [modalVisible, setModalVisible] = useState(false);
+  const handleConfirm = (id) => {
+    remove(id)
+    setModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setModalVisible(false);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -27,20 +51,20 @@ const Post = ({ post }) => {
             <Text>{formattedDate}</Text>
           </View>
         </View>
-        <View>
-          {user.id == post.author && (
-            <Feather name="trash-2" size={20} color="black" />
-          )}
-        </View>
+        {user.id == post.author && (
+          <View style={{ flexDirection: "column" }}>
+            <Feather name="edit" size={20} color="black" onPress={() => navigation.navigate('EditPost', { id: post.id, body: post.body })} />
+            <Feather name="trash-2" size={20} color="black" onPress={() => setModalVisible(true)} />
+          </View>
+        )}
       </View>
       <Text>{post.body}</Text>
-      <View style={styles.footer}>
-        <Image
-          source={require("../assets/Like.png")}
-          style={{ width: 16, height: 16, marginEnd: 5 }}
-        />
-        <Text>{post.like}</Text>
-      </View>
+      <ConfirmationModal
+        visible={modalVisible}
+        message="Voce realmene deseja deletar o post?"
+        onConfirm={() => handleConfirm(post.id)}
+        onCancel={() => handleCancel()}
+      />
     </View>
   );
 };

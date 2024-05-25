@@ -6,7 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 import useUserLoggedStore from "../../stores/useUserLogged";
 import SafeArea from "../../components/SafeArea";
 
-const NewPost = () => {
+const CreatePost = () => {
   const user = useUserLoggedStore();
   const navigation = useNavigation();
 
@@ -82,10 +82,9 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    textAlignVertical: "top",
     marginStart: 10,
     borderWidth: 1,
     borderBlockColor: "black",
   },
 });
-export default NewPost;
+export default CreatePost;

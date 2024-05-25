@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createDrawerNavigator,
@@ -15,9 +15,11 @@ import useUserLoggedStore from "./stores/useUserLogged.js";
 import Home from "./screens/Home/Home";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
-import PerfilStack from "./screens/Perfil/PerfilStack";
-import NewPost from "./screens/Home/NewPost";
+import Perfil from "./screens/Perfil/Perfil";
+import CreatePost from "./screens/Post/CreatePost.js";
+import EditPost from "./screens/Post/EditPost.js";
 import Splash from "./screens/Splash";
+import PerfilEdit from "./screens/Perfil/PerfilEdit.js";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -57,7 +59,7 @@ const MyDrawer = () => {
       <Drawer.Screen name="Inicio" component={Home} />
       <Drawer.Screen
         name="Perfil"
-        component={PerfilStack}
+        component={Perfil}
         options={{ headerShown: false }}
       />
     </Drawer.Navigator>
@@ -90,8 +92,18 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="NewPost"
-            component={NewPost}
+            name="PerfilEdit"
+            component={PerfilEdit}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="CreatePost"
+            component={CreatePost}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="EditPost"
+            component={EditPost}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
@@ -99,14 +111,3 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  customDrawerItem: {
-    position: "absolute",
-    bottom: 1,
-    width: "100%",
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-    backgroundColor: "white",
-  },
-});

@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PerfilEdit = () => {
   const user = useUserLoggedStore();
+  const navigation = useNavigation();
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [perfilImage, setPerfilImage] = useState(user.perfil_image);
@@ -30,6 +31,7 @@ const PerfilEdit = () => {
       user.update(data.user);
       if (data?.success) {
         alert("Perfil atualizado com sucesso");
+        navigation.goBack();
       } else {
         alert(data?.error);
       }

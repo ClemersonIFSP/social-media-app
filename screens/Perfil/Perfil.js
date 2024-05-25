@@ -22,7 +22,7 @@ const Perfil = () => {
   const [posts, setPosts] = useState([]);
   const loadPosts = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/post/${user.id}`);
+      const response = await fetch(`http://localhost:3000/post/user/${user.id}`);
       const data = await response.json();
       setPosts(data.posts);
     } catch (error) {
@@ -49,7 +49,7 @@ const Perfil = () => {
           <AntDesign
             style={styles.voltar}
             name="leftsquare"
-            size={40}
+            size={35}
             color="#117afb"
             onPress={() => navigation.goBack()}
           />
