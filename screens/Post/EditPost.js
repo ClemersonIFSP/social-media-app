@@ -21,6 +21,7 @@ const EditPost = ({ route }) => {
                 },
                 body: JSON.stringify({
                     body: postBody,
+                    author: user.id,
                 }),
             });
             const data = await response.json();

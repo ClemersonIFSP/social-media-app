@@ -63,7 +63,7 @@ const Perfil = () => {
         <View style={styles.perfilBtn}>
           <Button
             title="Editar Perfil"
-            onPress={() => navigation.navigate("EditPerfil")}
+            onPress={() => navigation.navigate("PerfilEdit")}
           />
         </View>
         <Text style={styles.perfilName}>{user.name}</Text>
